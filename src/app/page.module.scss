@@ -1,0 +1,103 @@
+.homepage {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  background: #e8c793;
+
+  .scene {
+    width: 100%;
+    position: relative;
+    height: 86%;
+    background: #fde0b1;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-end;
+    perspective: 500px;
+  }
+
+  .hero_wrapper {
+    margin-bottom: 250px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    text-align: center;
+    color: #1c1c1c;
+
+    h1 {
+      margin-bottom: 20px;
+
+      font-size: 48px;
+      color: #2a454b;
+    }
+
+    p {
+      margin-bottom: 30px;
+      max-width: 450px;
+
+      color: #474747;
+      word-spacing: -1px;
+      line-height: 1.4;
+    }
+  }
+
+  .item {
+    position: absolute;
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    background-position: left top;
+    pointer-events: none;
+  }
+
+  .plant {
+    background-image: url(https://ouch-cdn2.icons8.com/CZaKIJ63jjlgvDcdjcjUnlfpffRScIiXzi4HMrpLAsM/rs:fit:728:912/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvNjM2/L2RkMzRmMzVhLWVk/YmMtNDRlZi1hOGNm/LTZlZjJlMTBlMzU2/My5wbmc.png);
+    width: 500px;
+    height: 620px;
+    bottom: -26px;
+    margin-right: 700px;
+  }
+
+  .plant_2 {
+    background-image: url(https://ouch-cdn2.icons8.com/E47kcuNp_3-4IrDybcMwr6zMELcbhBQLKzImj-ot8E4/rs:fit:855:912/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvMzE5/LzljNjEwNjJhLTk4/YmMtNDViMS1iZGVm/LTMwNzVjMTMxYjQ1/OC5wbmc.png);
+    width: 300px;
+    height: 320px;
+    bottom: -50px;
+    margin-right: 600px;
+  }
+
+  .plant_3 {
+    background-image: url(https://ouch-cdn2.icons8.com/oo4nsgAN74wL_FDHCUIwOdB3rPN6SGavRjxiz-1ds4s/rs:fit:1201:912/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvMTk0/LzVlMGQ1NjhlLWNh/NTEtNGJlNC1iNWEz/LTQyYTcwNDlmZGMy/My5wbmc.png);
+    width: 160px;
+    height: 125px;
+    bottom: -50px;
+    margin-left: 740px;
+  }
+
+  .books {
+    background-image: url(https://ouch-cdn2.icons8.com/AUAdQ5eK8APXniP0hwVusHWtZRMk9FA2Jm9FSza1StY/rs:fit:850:912/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvNy9j/NTcxMWIzNC1mMTYy/LTQ3MTAtOGExYi1l/YzY1M2FlN2IwYWYu/cG5n.png);
+    width: 200px;
+    height: 220px;
+    bottom: -40px;
+    margin-left: 980px;
+  }
+
+  .apple {
+    background-image: url(https://ouch-cdn2.icons8.com/-O2SifADepTOg7bXJ5whR6wB0iMfq5y7vrIaJdmKp20/rs:fit:851:912/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvODYy/L2M3MjBkM2Q3LWMw/NTgtNDJkOC04ZGEw/LTc2MTM1N2YwMmNh/OC5wbmc.png);
+    width: 64px;
+    height: 70px;
+    top: -64px;
+    left: 30px;
+  }
+
+  .clock {
+    background-image: url(https://ouch-cdn2.icons8.com/ggxsAQVGAa4GMIlNl6vMuk0ANcEK07E5woeRpplKofI/rs:fit:945:912/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvMzI0/L2RmMDQzMzc4LTcy/NTUtNDA5My04ZDQy/LTgxOTJjNmE2ZmQx/ZC5wbmc.png);
+    width: 170px;
+    height: 170px;
+    background-size: 100% auto;
+    background-position: left top;
+    bottom: 450px;
+    margin-left: 640px;
+  }
+}
