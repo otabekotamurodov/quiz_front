@@ -2,11 +2,13 @@
 import { useState } from "react";
 import { Button, Form, Modal, Select, Upload } from "antd";
 import { HeartOutlined, InboxOutlined } from "@ant-design/icons";
+import { AnimatePresence, motion } from "framer-motion";
 import axios from "axios";
 
 import { Watch } from "@/components/watch";
 
 import styles from "./page.module.scss";
+import { MOTION_CONFIGS } from "@/consts";
 
 const { useForm } = Form;
 const { Dragger } = Upload;
@@ -46,21 +48,25 @@ export default function Home() {
   return (
     <main className={styles.homepage}>
       <div className={styles.scene}>
-        <div className={styles.hero_wrapper}>
-          <h1>AI Quiz Generator</h1>
-          <p>
-            Helps to generate quiz based on book. Just upload the book, and
-            enter number of questions. That{"'"}s it!
-          </p>
-          <Button
-            size="large"
-            type="primary"
-            icon={<HeartOutlined />}
-            onClick={() => setOpen(true)}
-          >
-            Start Generating
-          </Button>
-        </div>
+        <AnimatePresence>
+          <div className={styles.hero_wrapper}>
+            <motion.h1 {...MOTION_CONFIGS}>AI Quiz Generator</motion.h1>
+            <motion.p {...MOTION_CONFIGS} transition={{ delay: 0.1 }}>
+              Helps to generate quiz based on book. Just upload the book, and
+              enter number of questions. That{"'"}s it!
+            </motion.p>
+            <motion.div {...MOTION_CONFIGS} transition={{ delay: 0.2 }}>
+              <Button
+                size="large"
+                type="primary"
+                icon={<HeartOutlined />}
+                onClick={() => setOpen(true)}
+              >
+                Start Generating
+              </Button>
+            </motion.div>
+          </div>
+        </AnimatePresence>
 
         <div className={`${styles.item} ${styles.plant}`} />
         <div className={`${styles.item} ${styles.plant_2}`} />
