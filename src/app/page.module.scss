@@ -8,6 +8,8 @@
   background: #e8c793;
 
   .scene {
+    max-width: 1920px;
+    max-height: 1000px;
     width: 100%;
     position: relative;
     height: 86%;
@@ -164,7 +166,7 @@
     background-size: 100% auto;
     background-position: right top;
     top: 4vh;
-    right: 17vw;
+    right: 80px;
 
     @media only screen and (width < 1024px) {
       right: 10vw;
