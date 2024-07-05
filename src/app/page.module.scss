@@ -1,7 +1,10 @@
 .homepage {
-  height: 100vh;
+  height: 100dvh;
+
   display: flex;
   justify-content: center;
+
+  overflow: hidden;
   background: #e8c793;
 
   .scene {
@@ -10,14 +13,13 @@
     height: 86%;
     background: #fde0b1;
     display: flex;
-    flex-direction: row;
     justify-content: center;
-    align-items: flex-end;
     perspective: 500px;
   }
 
   .hero_wrapper {
-    margin-bottom: 250px;
+    margin-top: 25vh;
+    z-index: 1;
 
     display: flex;
     flex-direction: column;
@@ -26,11 +28,25 @@
     text-align: center;
     color: #1c1c1c;
 
+    @media only screen and (width < 500px) {
+      margin-top: 20vh;
+    }
+
     h1 {
       margin-bottom: 20px;
 
       font-size: 48px;
       color: #2a454b;
+
+      @media only screen and (width < 1024px) {
+        font-size: 32px;
+        margin-bottom: 10px;
+      }
+
+      @media only screen and (width < 600px) {
+        font-size: 28px;
+        margin-bottom: 8px;
+      }
     }
 
     p {
@@ -40,6 +56,20 @@
       color: #474747;
       word-spacing: -1px;
       line-height: 1.4;
+
+      @media only screen and (width < 1024px) {
+        font-size: 20px;
+        margin-bottom: 16px;
+      }
+
+      @media only screen and (width < 600px) {
+        font-size: 16px;
+        margin-bottom: 10px;
+      }
+
+      @media only screen and (width < 480px) {
+        max-width: 90%;
+      }
     }
   }
 
@@ -49,55 +79,100 @@
     background-size: 100% auto;
     background-position: left top;
     pointer-events: none;
+
+    @media only screen and (width < 1024px) {
+      scale: 0.7;
+    }
+
+    @media only screen and (width < 500px) {
+      scale: 0.5;
+    }
   }
 
   .plant {
+    transform-origin: left bottom;
     background-image: url(https://ouch-cdn2.icons8.com/CZaKIJ63jjlgvDcdjcjUnlfpffRScIiXzi4HMrpLAsM/rs:fit:728:912/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvNjM2/L2RkMzRmMzVhLWVk/YmMtNDRlZi1hOGNm/LTZlZjJlMTBlMzU2/My5wbmc.png);
     width: 500px;
     height: 620px;
     bottom: -26px;
-    margin-right: 700px;
+    left: 10vw;
+
+    @media only screen and (width < 1024px) {
+      left: 0;
+    }
   }
 
   .plant_2 {
+    transform-origin: left bottom;
     background-image: url(https://ouch-cdn2.icons8.com/E47kcuNp_3-4IrDybcMwr6zMELcbhBQLKzImj-ot8E4/rs:fit:855:912/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvMzE5/LzljNjEwNjJhLTk4/YmMtNDViMS1iZGVm/LTMwNzVjMTMxYjQ1/OC5wbmc.png);
     width: 300px;
     height: 320px;
     bottom: -50px;
-    margin-right: 600px;
-  }
+    left: 22vw;
 
-  .plant_3 {
-    background-image: url(https://ouch-cdn2.icons8.com/oo4nsgAN74wL_FDHCUIwOdB3rPN6SGavRjxiz-1ds4s/rs:fit:1201:912/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvMTk0/LzVlMGQ1NjhlLWNh/NTEtNGJlNC1iNWEz/LTQyYTcwNDlmZGMy/My5wbmc.png);
-    width: 160px;
-    height: 125px;
-    bottom: -50px;
-    margin-left: 740px;
+    @media only screen and (width < 1024px) {
+      left: 15vw;
+    }
   }
 
   .books {
+    transform-origin: right bottom;
     background-image: url(https://ouch-cdn2.icons8.com/AUAdQ5eK8APXniP0hwVusHWtZRMk9FA2Jm9FSza1StY/rs:fit:850:912/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvNy9j/NTcxMWIzNC1mMTYy/LTQ3MTAtOGExYi1l/YzY1M2FlN2IwYWYu/cG5n.png);
     width: 200px;
     height: 220px;
     bottom: -40px;
-    margin-left: 980px;
+    right: 10vw;
+
+    @media only screen and (width < 1024px) {
+      right: 0;
+    }
+
+    .apple {
+      background-image: url(https://ouch-cdn2.icons8.com/-O2SifADepTOg7bXJ5whR6wB0iMfq5y7vrIaJdmKp20/rs:fit:851:912/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvODYy/L2M3MjBkM2Q3LWMw/NTgtNDJkOC04ZGEw/LTc2MTM1N2YwMmNh/OC5wbmc.png);
+      width: 64px;
+      height: 70px;
+      top: -64px;
+      left: 30px;
+
+      @media only screen and (width < 1024px) {
+        top: -55px;
+      }
+
+      @media only screen and (width < 500px) {
+        top: -48px;
+      }
+    }
   }
 
-  .apple {
-    background-image: url(https://ouch-cdn2.icons8.com/-O2SifADepTOg7bXJ5whR6wB0iMfq5y7vrIaJdmKp20/rs:fit:851:912/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvODYy/L2M3MjBkM2Q3LWMw/NTgtNDJkOC04ZGEw/LTc2MTM1N2YwMmNh/OC5wbmc.png);
-    width: 64px;
-    height: 70px;
-    top: -64px;
-    left: 30px;
+  .plant_3 {
+    transform-origin: right bottom;
+    background-image: url(https://ouch-cdn2.icons8.com/oo4nsgAN74wL_FDHCUIwOdB3rPN6SGavRjxiz-1ds4s/rs:fit:1201:912/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvMTk0/LzVlMGQ1NjhlLWNh/NTEtNGJlNC1iNWEz/LTQyYTcwNDlmZGMy/My5wbmc.png);
+    width: 160px;
+    height: 125px;
+    bottom: -50px;
+    right: 20vw;
+
+    @media only screen and (width < 1024px) {
+      right: 15vw;
+    }
   }
 
   .clock {
-    background-image: url(https://ouch-cdn2.icons8.com/ggxsAQVGAa4GMIlNl6vMuk0ANcEK07E5woeRpplKofI/rs:fit:945:912/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvMzI0/L2RmMDQzMzc4LTcy/NTUtNDA5My04ZDQy/LTgxOTJjNmE2ZmQx/ZC5wbmc.png);
+    transform-origin: right top;
     width: 170px;
     height: 170px;
     background-size: 100% auto;
-    background-position: left top;
-    bottom: 450px;
-    margin-left: 640px;
+    background-position: right top;
+    top: 4vh;
+    right: 17vw;
+
+    @media only screen and (width < 1024px) {
+      right: 10vw;
+    }
+
+    @media only screen and (width < 500px) {
+      top: 16px;
+      right: 16px;
+    }
   }
 }
