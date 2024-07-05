@@ -50,7 +50,7 @@ export default function Home() {
           <h1>AI Quiz Generator</h1>
           <p>
             Helps to generate quiz based on book. Just upload the book, and
-            enter number of questions. That's it!
+            enter number of questions. That{"'"}s it!
           </p>
           <Button
             size="large"
@@ -78,8 +78,11 @@ export default function Home() {
         title="Generate Quiz"
         onCancel={() => setOpen(false)}
         footer={[
-          <Button onClick={() => setOpen(false)}>Cancel</Button>,
+          <Button key="cancel" onClick={() => setOpen(false)}>
+            Cancel
+          </Button>,
           <Button
+            key="generate"
             type="primary"
             onClick={() => form.submit()}
             loading={loading}
