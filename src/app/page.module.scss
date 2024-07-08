@@ -93,9 +93,6 @@
 
   .plant {
     transform-origin: left bottom;
-    background-image: url(https://ouch-cdn2.icons8.com/CZaKIJ63jjlgvDcdjcjUnlfpffRScIiXzi4HMrpLAsM/rs:fit:728:912/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvNjM2/L2RkMzRmMzVhLWVk/YmMtNDRlZi1hOGNm/LTZlZjJlMTBlMzU2/My5wbmc.png);
-    width: 500px;
-    height: 620px;
     bottom: -26px;
     left: 10vw;
 
@@ -106,9 +103,6 @@
 
   .plant_2 {
     transform-origin: left bottom;
-    background-image: url(https://ouch-cdn2.icons8.com/E47kcuNp_3-4IrDybcMwr6zMELcbhBQLKzImj-ot8E4/rs:fit:855:912/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvMzE5/LzljNjEwNjJhLTk4/YmMtNDViMS1iZGVm/LTMwNzVjMTMxYjQ1/OC5wbmc.png);
-    width: 300px;
-    height: 320px;
     bottom: -50px;
     left: 22vw;
 
@@ -117,40 +111,24 @@
     }
   }
 
-  .books {
-    transform-origin: right bottom;
-    background-image: url(https://ouch-cdn2.icons8.com/AUAdQ5eK8APXniP0hwVusHWtZRMk9FA2Jm9FSza1StY/rs:fit:850:912/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvNy9j/NTcxMWIzNC1mMTYy/LTQ3MTAtOGExYi1l/YzY1M2FlN2IwYWYu/cG5n.png);
-    width: 200px;
-    height: 220px;
+  .books_wrapper {
     bottom: -40px;
     right: 10vw;
+    transform-origin: right bottom;
 
     @media only screen and (width < 1024px) {
       right: 0;
     }
 
     .apple {
-      background-image: url(https://ouch-cdn2.icons8.com/-O2SifADepTOg7bXJ5whR6wB0iMfq5y7vrIaJdmKp20/rs:fit:851:912/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvODYy/L2M3MjBkM2Q3LWMw/NTgtNDJkOC04ZGEw/LTc2MTM1N2YwMmNh/OC5wbmc.png);
-      width: 64px;
-      height: 70px;
+      position: absolute;
       top: -64px;
       left: 30px;
-
-      @media only screen and (width < 1024px) {
-        top: -55px;
-      }
-
-      @media only screen and (width < 500px) {
-        top: -48px;
-      }
     }
   }
 
   .plant_3 {
     transform-origin: right bottom;
-    background-image: url(https://ouch-cdn2.icons8.com/oo4nsgAN74wL_FDHCUIwOdB3rPN6SGavRjxiz-1ds4s/rs:fit:1201:912/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvMTk0/LzVlMGQ1NjhlLWNh/NTEtNGJlNC1iNWEz/LTQyYTcwNDlmZGMy/My5wbmc.png);
-    width: 160px;
-    height: 125px;
     bottom: -50px;
     right: 20vw;
 
@@ -175,6 +153,68 @@
     @media only screen and (width < 500px) {
       top: 16px;
       right: 16px;
+    }
+  }
+}
+
+.modal {
+  .select {
+    width: 100%;
+  }
+
+  .buttons_wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: 10px;
+  }
+
+  .quiz {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    .item_wrapper {
+      padding: 10px;
+
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      border-radius: 10px;
+      border: 1px solid #d9d9d9;
+
+      .question {
+        font-weight: 500;
+      }
+
+      .options_wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        .option {
+          padding: 6px 12px;
+
+          border-radius: 10px;
+          border: 1px solid #d9d9d9;
+
+          &[data-correct="true"] {
+            font-weight: 500;
+            color: #30443d;
+            border-color: #588073;
+            background-color: #61a38e21;
+          }
+        }
+      }
+
+      .explanation {
+        color: #474747;
+
+        .info_icon {
+          margin-right: 8px;
+        }
+      }
     }
   }
 }

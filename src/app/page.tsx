@@ -1,45 +1,191 @@
 "use client";
+import Image from "next/image";
 import { useState } from "react";
-import { Button, Form, Modal, Select, Upload } from "antd";
-import { HeartOutlined, InboxOutlined } from "@ant-design/icons";
+import { Button, Form, message, Modal, Select, Upload } from "antd";
+import {
+  DownloadOutlined,
+  HeartOutlined,
+  InboxOutlined,
+  InfoCircleOutlined,
+  SignatureOutlined,
+} from "@ant-design/icons";
 import { AnimatePresence, motion } from "framer-motion";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
+import { jsPDF } from "jspdf";
 
 import { Watch } from "@/components/watch";
-
-import styles from "./page.module.scss";
 import { MOTION_CONFIGS } from "@/consts";
 
+import styles from "./page.module.scss";
+
+const SELECT_OPTIONS = [5, 10, 15, 20];
+
 const { useForm } = Form;
+const { Option } = Select;
 const { Dragger } = Upload;
+const { useMessage } = message;
 
 interface FormType {
   upload: { file: File };
-  select: [string] | [number];
+  select: string;
 }
+
+interface Quiz {
+  question_number: number;
+  question: string;
+  options: { [key: string]: string };
+  correct_answer: string;
+  correct_answer_text: string;
+  explanation: string;
+}
+
+const Plant1 = () => (
+  <Image
+    unoptimized
+    src="/scene/plant1.png"
+    alt="plant"
+    width={500}
+    height={626}
+    className={`${styles.item} ${styles.plant}`}
+  />
+);
+
+const Plant2 = () => (
+  <Image
+    unoptimized
+    src="/scene/plant2.png"
+    alt="plant"
+    width={300}
+    height={320}
+    className={`${styles.item} ${styles.plant_2}`}
+  />
+);
+
+const Plant3 = () => (
+  <Image
+    unoptimized
+    src="/scene/plant3.png"
+    alt="plant"
+    width={165}
+    height={125}
+    className={`${styles.item} ${styles.plant_3}`}
+  />
+);
+
+const Books = () => (
+  <div className={`${styles.item} ${styles.books_wrapper}`}>
+    <Image
+      unoptimized
+      src="/scene/books.png"
+      alt="books"
+      width={200}
+      height={215}
+      className={`${styles.books}`}
+    />
+    <Image
+      unoptimized
+      src="/scene/apple.png"
+      alt="apple"
+      width={64}
+      height={69}
+      className={`${styles.apple}`}
+    />
+  </div>
+);
+
+const Clock = () => (
+  <div className={`${styles.item} ${styles.clock}`}>
+    <Watch />
+  </div>
+);
 
 export default function Home() {
   const [form] = useForm();
+  const [messageApi, contextHolder] = useMessage();
+
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [quiz, setQuiz] = useState<Array<Quiz> | null>(null);
+
+  const handleClose = () => {
+    setOpen(false);
+    form.resetFields();
+    setQuiz(null);
+  };
+
+  const handleDownload = () => {
+    if (!quiz) return;
+
+    const doc = new jsPDF();
+    const pageHeight = doc.internal.pageSize.height;
+    const lineHeight = 10;
+    let startY = 20;
+
+    // Add title
+    doc.text("AI Quiz Generator Result", 10, 10);
+    startY += 10;
+
+    quiz.forEach((item) => {
+      const totalOptions = Object.keys(item.options).length;
+      const blockHeight = (totalOptions + 3) * lineHeight; // Including question, options, and correct answer
+
+      if (startY + blockHeight > pageHeight) {
+        // Check if the next block will overflow the page
+        doc.addPage();
+        startY = 20; // Reset the starting Y position
+      }
+
+      doc.text(
+        `Question ${item.question_number}: ${item.question}`,
+        10,
+        startY
+      );
+      startY += lineHeight;
+
+      Object.entries(item.options).forEach(([key, value]) => {
+        doc.text(`${key}: ${value}`, 10, startY);
+        startY += lineHeight;
+      });
+
+      doc.text(`Correct Answer: ${item.correct_answer_text}`, 10, startY);
+      startY += lineHeight + 10; // Add extra space before the next question
+    });
+
+    doc.save("quiz.pdf");
+  };
 
   const handleSubmit = async (values: FormType) => {
     try {
       setLoading(true);
+      message.open({
+        key: "quiz",
+        type: "loading",
+        duration: 5, // in seconds
+        content: "Uploading, and generating quiz",
+      });
+
       const formData = new FormData();
       formData.append("file", values.upload.file);
 
       const res = await axios.post(
-        `http://quiz.mutolaa.com/generatequiz/?quiz_count=${values.select[0]}`,
+        `http://quiz-api.mutolaa.com/generatequiz/?quiz_count=${values.select}`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
         }
       );
 
-      console.log({ ddd: res.data });
+      setQuiz(res.data.quiz_data.quiz);
+      message.destroy("quiz");
     } catch (error) {
       console.log({ error });
+      if (error instanceof AxiosError) {
+        message.open({
+          key: "quiz",
+          type: "error",
+          content: error.response?.statusText ?? error.message,
+        });
+      }
     } finally {
       setLoading(false);
     }
@@ -47,6 +193,7 @@ export default function Home() {
 
   return (
     <main className={styles.homepage}>
+      {contextHolder}
       <div className={styles.scene}>
         <AnimatePresence>
           <div className={styles.hero_wrapper}>
@@ -67,78 +214,121 @@ export default function Home() {
             </motion.div>
           </div>
         </AnimatePresence>
-
-        <div className={`${styles.item} ${styles.plant}`} />
-        <div className={`${styles.item} ${styles.plant_2}`} />
-        <div className={`${styles.item} ${styles.books}`}>
-          <div className={`${styles.item} ${styles.apple}`} />
-        </div>
-        <div className={`${styles.item} ${styles.plant_3}`} />
-        <div className={`${styles.item} ${styles.clock}`}>
-          <Watch />
-        </div>
+        <Plant1 />
+        <Plant2 />
+        <Books />
+        <Plant3 />
+        <Clock />
       </div>
-
       <Modal
-        open={open}
-        title="Generate Quiz"
-        onCancel={() => setOpen(false)}
-        footer={[
-          <Button key="cancel" onClick={() => setOpen(false)}>
-            Cancel
-          </Button>,
-          <Button
-            key="generate"
-            type="primary"
-            onClick={() => form.submit()}
-            loading={loading}
-          >
-            Generate
-          </Button>,
-        ]}
+        centered
+        open={loading || open}
+        footer={null}
+        title={!quiz?.length ? "Generate Quiz" : "Quiz"}
+        onCancel={loading ? undefined : handleClose}
+        className={styles.modal}
+        style={{ marginBlock: 24 }}
       >
-        <Form
-          form={form}
-          name="basic"
-          layout="vertical"
-          autoComplete="off"
-          initialValues={{ remember: true }}
-          requiredMark="optional"
-          onFinish={handleSubmit}
-        >
-          <Form.Item<FormType> name="upload" label="Upload file" required>
-            <Dragger name="file" listType="picture" beforeUpload={() => false}>
-              <p className="ant-upload-drag-icon">
-                <InboxOutlined />
-              </p>
-              <p className="ant-upload-text">
-                Click or drag file to this area to upload
-              </p>
-              <p className="ant-upload-hint">
-                Support for a single or bulk upload. Strictly prohibited from
-                uploading company data or other banned files.
-              </p>
-            </Dragger>
-          </Form.Item>
-          <Form.Item<FormType>
-            name="select"
-            label="Number of questions"
-            required
+        {!quiz?.length ? (
+          <Form
+            form={form}
+            name="basic"
+            layout="vertical"
+            autoComplete="off"
+            disabled={loading}
+            initialValues={{ remember: true }}
+            requiredMark="optional"
+            onFinish={handleSubmit}
           >
-            <Select
-              mode="tags"
-              style={{ width: "100%" }}
-              placeholder="Choose number of questions"
-              maxCount={1}
-              options={[
-                { label: 5, value: 5 },
-                { label: 10, value: 10 },
-                { label: 15, value: 15 },
-                { label: 20, value: 20 },
-              ]}
-            />
-          </Form.Item>
-        </Form>
+            <Form.Item<FormType>
+              name="upload"
+              label="Upload file"
+              required
+              rules={[{ required: true, message: "This field is required" }]}
+            >
+              <Dragger
+                name="file"
+                listType="picture"
+                beforeUpload={() => false}
+              >
+                <p className="ant-upload-drag-icon">
+                  <InboxOutlined />
+                </p>
+                <p className="ant-upload-text">
+                  Click or drag file to this area to upload
+                </p>
+                <p className="ant-upload-hint">
+                  Support for a single or bulk upload. Strictly prohibited from
+                  uploading company data or other banned files.
+                </p>
+              </Dragger>
+            </Form.Item>
+            <Form.Item<FormType>
+              name="select"
+              label="Number of questions"
+              rules={[{ required: true, message: "This field is required" }]}
+            >
+              <Select
+                className={styles.select}
+                placeholder="Choose number of questions"
+              >
+                {SELECT_OPTIONS.map((el) => (
+                  <Option key={el} value={el}>
+                    {el}
+                  </Option>
+                ))}
+              </Select>
+            </Form.Item>
+            <div className={styles.buttons_wrapper}>
+              <Button onClick={handleClose} disabled={loading}>
+                Cancel
+              </Button>
+              <Button
+                htmlType="submit"
+                type="primary"
+                icon={<SignatureOutlined />}
+                loading={loading}
+              >
+                Generate
+              </Button>
+            </div>
+          </Form>
+        ) : (
+          <div className={styles.quiz}>
+            {quiz.map((el) => (
+              <div key={el.question_number} className={styles.item_wrapper}>
+                <div className={styles.question}>
+                  {el.question_number}. {el.question}
+                </div>
+                <div className={styles.options_wrapper}>
+                  {Object.entries(el.options).map(([key, value]) => (
+                    <div
+                      key={key}
+                      className={styles.option}
+                      data-correct={key === el.correct_answer}
+                    >
+                      {key}. {value}
+                    </div>
+                  ))}
+                </div>
+                <div className={styles.explanation}>
+                  <InfoCircleOutlined className={styles.info_icon} />
+                  {el.explanation}
+                </div>
+              </div>
+            ))}
+            <div className={styles.buttons_wrapper}>
+              <Button onClick={handleClose}>Close</Button>
+              <Button
+                type="primary"
+                icon={<DownloadOutlined />}
+                onClick={handleDownload}
+              >
+                Download
+              </Button>
+            </div>
+          </div>
+        )}
       </Modal>
     </main>
   );
