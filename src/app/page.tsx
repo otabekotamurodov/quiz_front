@@ -119,35 +119,74 @@ export default function Home() {
     const doc = new jsPDF();
     const pageHeight = doc.internal.pageSize.height;
     const lineHeight = 10;
+    const margin = 10;
+    const maxLineWidth = doc.internal.pageSize.width - 2 * margin;
     let startY = 20;
 
+    // Helper function to split text into lines
+    const splitText = (text: string, maxWidth: number) => {
+      const words = text.split(" ");
+      const lines = [];
+      let currentLine = words[0];
+
+      for (let i = 1; i < words.length; i++) {
+        const word = words[i];
+        const width = doc.getTextWidth(currentLine + " " + word);
+        if (width < maxWidth) {
+          currentLine += " " + word;
+        } else {
+          lines.push(currentLine);
+          currentLine = word;
+        }
+      }
+      lines.push(currentLine);
+      return lines;
+    };
+
     // Add title
-    doc.text("AI Quiz Generator Result", 10, 10);
-    startY += 10;
+    doc.text("AI Quiz Generator Result", margin, startY);
+    startY += 2 * lineHeight;
 
     quiz.forEach((item) => {
-      const totalOptions = Object.keys(item.options).length;
-      const blockHeight = (totalOptions + 3) * lineHeight; // Including question, options, and correct answer
+      const questionLines = splitText(
+        `Question ${item.question_number}: ${item.question}`,
+        maxLineWidth
+      );
+      const optionLines = Object.entries(item.options)
+        .map(([key, value]) => splitText(`${key}: ${value}`, maxLineWidth))
+        .flat();
+      const correctAnswerLines = splitText(
+        `Correct Answer: ${item.correct_answer}. ${item.correct_answer_text}`,
+        maxLineWidth
+      );
+
+      const blockHeight =
+        (questionLines.length +
+          optionLines.length +
+          correctAnswerLines.length +
+          3) *
+        lineHeight; // Including question, options, and correct answer
 
       if (startY + blockHeight > pageHeight) {
-        // Check if the next block will overflow the page
         doc.addPage();
         startY = 20; // Reset the starting Y position
       }
 
-      doc.text(
-        `Question ${item.question_number}: ${item.question}`,
-        10,
-        startY
-      );
-      startY += lineHeight;
-
-      Object.entries(item.options).forEach(([key, value]) => {
-        doc.text(`${key}: ${value}`, 10, startY);
+      questionLines.forEach((line) => {
+        doc.text(line, margin, startY);
         startY += lineHeight;
       });
 
-      doc.text(`Correct Answer: ${item.correct_answer_text}`, 10, startY);
+      optionLines.forEach((line) => {
+        doc.text(line, margin, startY);
+        startY += lineHeight;
+      });
+
+      correctAnswerLines.forEach((line) => {
+        doc.text(line, margin, startY);
+        startY += lineHeight;
+      });
+
       startY += lineHeight + 10; // Add extra space before the next question
     });
 
