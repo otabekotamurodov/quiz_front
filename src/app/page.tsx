@@ -199,7 +199,7 @@ export default function Home() {
       message.open({
         key: "quiz",
         type: "loading",
-        duration: 5, // in seconds
+        duration: 3000, // in seconds
         content: "Uploading, and generating quiz",
       });
 
@@ -260,11 +260,12 @@ export default function Home() {
         <Clock />
       </div>
       <Modal
+        closable={!loading && !quiz}
         centered
-        open={loading || open}
+        open={open}
         footer={null}
         title={!quiz?.length ? "Generate Quiz" : "Quiz"}
-        onCancel={loading ? undefined : handleClose}
+        onCancel={loading || quiz ? undefined : handleClose}
         className={styles.modal}
         style={{ marginBlock: 24 }}
       >
