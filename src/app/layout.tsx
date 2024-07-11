@@ -7,8 +7,8 @@ import { ThemeProvider } from "@/providers/ThemeProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Tester",
-  description: "Generatetest from book, using AI",
+  title: "AI Quiz Generator",
+  description: "Generate quiz using AI from file you upload",
 };
 
 export default function RootLayout({ children }: PropsWithChildren) {
