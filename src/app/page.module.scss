@@ -77,9 +77,6 @@
 
   .item {
     position: absolute;
-    background-repeat: no-repeat;
-    background-size: 100% auto;
-    background-position: left top;
     pointer-events: none;
 
     @media only screen and (width < 1024px) {
